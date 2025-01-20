@@ -34,6 +34,7 @@ Questo comando creerà un tunnel che permetterà di accedere all'applicazione Fl
 Apri un altro terminale e naviga fino alla cartella del progetto. Per avviare l'applicazione, esegui il seguente comando:
 
 ```bash
+.\env\Scripts\activate
 python app.py
 ```
 
