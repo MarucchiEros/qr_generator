@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convalida QR Code</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>Convalida QR Code</h1>
@@ -15,8 +17,9 @@
             <button type="submit">Convalida</button>
         </form>
         {% if qr_id %}
-            <p>Il tuo QR Code ID è: {{ qr_id }}</p>
+        <p>Il tuo QR Code ID è: {{ qr_id }}</p>
         {% endif %}
     </div>
 </body>
+
 </html>
