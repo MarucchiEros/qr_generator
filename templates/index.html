@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore QR Code</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Generatore QR Code</h1>
+        <form id="qr-form">
+            <label for="url">Inserisci URL:</label>
+            <input type="text" id="url" name="url" required>
+            <label for="password">Password (opzionale):</label>
+            <input type="password" id="password" name="password">
+            <button type="submit">Genera QR Code</button>
+        </form>
+
+        <div id="error-message" style="color: red; display: none;">
+            L'URL inserito non è valido. Assicurati di inserire un URL completo (es. http:// o https://).
+        </div>
+
+        <div id="qr-preview" class="qr-preview" style="display: none;">
+            <h2>Anteprima QR Code</h2>
+            <img id="qr-image" src="" alt="QR Code"><br>
+            <a id="download-link" href="#" download>Scarica il QR Code</a><br><br>
+            <button id="validate-button" style="display:none;">Vai alla pagina di validazione</button>
+        </div>
+    </div>
+
+    <script>
+        let qrId = '';
+        $('#qr-form').on('submit', function(event) {
+            event.preventDefault();
+            
+            var url = $('#url').val();
+            var password = $('#password').val();
+            
+            $.ajax({
+                url: '/generate_qr',
+                method: 'POST',
+                data: {
+                    url: url,
+                    password: password
+                },
+                success: function(response) {
+                    if (response.image) {
+                        $('#qr-image').attr('src', 'data:image/png;base64,' + btoa(response.image));
+                        $('#download-link').attr('href', 'data:image/png;base64,' + btoa(response.image));
+                        $('#qr-preview').show();
+                        qrId = response.qr_id;
+                        $('#validate-button').attr('onclick', `window.location.href='/validate/${qrId}'`);
+                        $('#validate-button').show();
+                        $('#error-message').hide();
+                    }
+                },
+                error: function(error) {
+                    $('#error-message').show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

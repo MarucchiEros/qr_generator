@@ -1,0 +1,2 @@
+CREATE DATABASE qr_code_db;
+select * from qr_code;
